@@ -1,0 +1,11 @@
+# dsh-ui-hub bundle patch: one host-tree row carrying this package.
+#
+# The node half of dsh-client-modules scans every loaded entry for a `dsh.client`
+# manifest declaration and composes the ones with `platform: web` into the
+# window.__DSH_BOOT__ graph; the row below is what puts this package on that
+# tree. The host half (lib/index.js) is intentionally a no-op — all behavior
+# lives in the browser half (lib/client.js).
+
+- insert:
+    - id: ui-hub
+      name: 'dsh-ui-hub'

@@ -1,0 +1,74 @@
+{
+  "name": "dsh-ui-hub",
+  "version": "0.1.0",
+  "description": "DSH Web 客户端 UI 管家插件:枚举所有插件的每个 UI(按钮/图标/图表等),独立开关、独立定位、碰撞避让与一键美观排布。UI butler for DeepSeek Harness: per-widget toggle, positioning, collision avoidance and auto layout for every plugin UI.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "README.en.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": []
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "dshhub": {
+    "schemaVersion": 1,
+    "displayName": "dsh-ui-hub",
+    "summary": "UI 管家:逐个开关各插件 UI、拖拽/坐标定位、浮动碰撞避让与一键美观排布。",
+    "categories": [
+      "Web UI",
+      "布局",
+      "工具"
+    ],
+    "surfaces": [
+      "host",
+      "web"
+    ],
+    "capabilities": {
+      "provides": []
+    },
+    "compatibility": {
+      "dsh": ">=0.1.0-rc.6",
+      "node": ">=20"
+    },
+    "permissions": {}
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Han-1413141/dsh-ui-hub.git"
+  },
+  "homepage": "https://github.com/Han-1413141/dsh-ui-hub#readme",
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "client-plugin",
+    "ui",
+    "layout",
+    "widget",
+    "collision",
+    "toggle",
+    "position"
+  ],
+  "license": "MIT"
+}

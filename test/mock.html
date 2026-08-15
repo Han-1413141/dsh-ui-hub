@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>dsh-ui-hub mock DOM harness</title>
+<style>
+  html,body{margin:0;height:100%}
+  body{display:flex;font-family:system-ui,sans-serif;background:#101216;color:#eef0f3}
+  [data-pane=sidebar]{width:260px;flex:none;border-right:1px solid #262a33;display:flex;flex-direction:column}
+  [data-pane=conversation]{flex:1;display:flex;flex-direction:column;min-width:0}
+  [data-conversation-scroll]{flex:1;overflow:auto;position:relative;border:1px dashed #3a3f4a;margin:8px}
+  .spacer{height:900px}
+  .mock-button{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border:1px solid #3a3f4a;border-radius:8px;background:#1c2028}
+  .cm-footer-stack{display:flex;flex-direction:column;gap:6px;width:178px;border:1px solid #3a3f4a;border-radius:10px;padding:8px}
+  .cm-chip{display:inline-flex;gap:4px;align-items:center}
+  .mgl-chart{border:1px solid #c9a22755;border-radius:10px;padding:8px;background:#1a1610;width:220px}
+  .stats-line{font-size:12px;color:#8b909a}
+  [data-slot]{display:contents}
+  #composer{border-top:1px solid #262a33;padding:12px}
+</style>
+<script>
+  window.__registered = [];
+  window.__ModuleLoader__ = {
+    load(spec) { window.__registered.push(spec); },
+  };
+</script>
+<script src="../lib/client.js"></script>
+</head>
+<body>
+  <div data-pane="sidebar">
+    <div style="height:40px;padding:12px">Sidebar</div>
+    <div data-slot="sidebar.workspaces"><div class="ws-root" style="padding:8px;color:#8b909a">工作区</div></div>
+    <div style="flex:1"></div>
+    <div data-slot="sidebar.footer.action">
+      <div class="cm-footer-stack" aria-label="今日费用面板">
+        <div class="cm-chip">余额 ¥0.23
+          <svg width="14" height="14" viewBox="0 0 14 14" aria-label="余额图标"><circle cx="7" cy="7" r="5" stroke="currentColor" fill="none"/></svg>
+          <button type="button" class="mock-button">刷新</button>
+        </div>
+        <div>今日 ¥46.10</div>
+      </div>
+      <div class="uw-Msq_entryRow" style="width:78px;height:32px"></div>
+    </div>
+    <div data-slot="sidebar.settings"><button type="button" class="mock-button">设置</button></div>
+  </div>
+
+  <div data-pane="conversation">
+    <div data-slot="conversation.session.header" style="height:44px">
+      <div data-slot="conversation.session.header.actions">
+        <button type="button" class="mock-button" aria-label="后台任务">后台任务</button>
+        <button type="button" class="mock-button" aria-label="子代理目录">子代理</button>
+      </div>
+      <div data-slot="conversation.session.header.utilities"></div>
+    </div>
+    <div data-conversation-scroll>
+      <div class="spacer"></div>
+    </div>
+    <div id="composer">
+      <div data-slot="conversation.composer.dock">
+        <div class="stats-line">本会话 12,345 tok · 0.3s</div>
+        <div class="mgl-chart" aria-label="命盘图表">
+          <div>命盘</div>
+          <svg width="180" height="120" viewBox="0 0 180 120" aria-label="命盘主图">
+            <rect x="4" y="4" width="172" height="112" fill="none" stroke="#c9a227"/>
+            <circle cx="90" cy="60" r="40" fill="none" stroke="#c9a227"/>
+            <path d="M90 20v80M50 60h80" stroke="#c9a227"/>
+            <path d="M30 40l120 40M30 80l120-40" stroke="#c9a227"/>
+          </svg>
+        </div>
+      </div>
+      <div data-slot="conversation.input.model"><button type="button" class="mock-button">DeepSeek V4</button></div>
+    </div>
+  </div>
+
+  <!-- Floating plugin widgets outside every slot anchor. -->
+  <button type="button" data-sticky-disclosure-control="" style="position:fixed;left:1128px;top:620px;z-index:15" class="dshSd_control">
+    <span>全部收起</span><span>·2</span>
+  </button>
+  <div data-dsh-mingli-widget="" style="position:fixed;left:1110px;top:606px;z-index:20" aria-label="命盘悬浮图">
+    <canvas width="140" height="60" style="display:block;background:#1a1610"></canvas>
+  </div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    const spec = window.__registered[0];
+    const moduleObj = spec.factory(() => ({}));
+    window.__plugin = moduleObj;
+    const cleanups = [];
+    const ctx = {
+      effect(fn, label) {
+        const dispose = fn();
+        if (typeof dispose === "function") cleanups.push(dispose);
+      },
+      logger: { warn() {}, info() {} },
+    };
+    moduleObj.apply(ctx);
+    // Click counter for the header action button (drag must not re-trigger it).
+    // The same click also opens a popup anchored to the button's ORIGINAL spot
+    // (261,0), so the popup-follower compensation is testable after floating.
+    window.__clickCount = 0;
+    document.querySelector('[aria-label="后台任务"]').addEventListener("click", () => {
+      window.__clickCount += 1;
+      if (!document.querySelector('[data-test-popup]')) {
+        const pop = document.createElement("div");
+        pop.setAttribute("role", "menu");
+        pop.dataset.testPopup = "";
+        pop.style.cssText = "position:fixed;left:261px;top:0px;width:120px;height:60px;background:#2244aa";
+        document.body.appendChild(pop);
+      }
+    });
+    window.__pluginCleanup = () => {
+      for (const fn of cleanups) fn();
+      cleanups.length = 0;
+    };
+  });
+</script>
+</body>
+</html>
