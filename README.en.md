@@ -6,7 +6,11 @@ English | [中文](README.md)
 
 A DSH web client plugin: **UI Hub**. It enumerates every UI contribution from every plugin — panels, buttons, icons, charts, fields — and lets you **toggle each one, position each one, avoid floating collisions, and auto-arrange them into a tidy column**.
 
-![Promo: dsh-ui-hub UI Hub](docs/assets/promo-hero.webp)
+![Cover: Whale Girl · UI Hub](docs/assets/whale-girl.png)
+
+![UI Hub panel (Chinese)](docs/assets/screenshot-panel-collapsed.png)
+
+![UI Hub panel (English)](docs/assets/screenshot-panel-en.png)
 
 ## ✨ Features
 

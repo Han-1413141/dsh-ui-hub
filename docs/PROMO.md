@@ -1,11 +1,12 @@
 # dsh-ui-hub 宣传文案 / Promo copy
 
 > 素材位置:`docs/assets/`
-> - 首图(鲸鱼娘):按 `assets/whale-girl-prompt.md` 生成后存为 `assets/whale-girl.png`
+> - 首图(鲸鱼娘,已就位):`assets/whale-girl.png`
 > - 主宣传图(已生成):`assets/promo-hero.png` / `assets/promo-hero.webp`
 > - 社交卡片(已生成):`assets/promo-social.png` / `assets/promo-social.webp`
 > - 工作流程图(已生成):`assets/architecture.png`
 > - 实机截图(已生成):`assets/screenshot-launcher.png` / `assets/screenshot-panel-collapsed.png` / `assets/screenshot-official-expanded.png` / `assets/screenshot-official-group-expanded.png` / `assets/screenshot-drag.png`
+> - 中英双语面板截图(已生成):`assets/screenshot-panel-zh.png` / `assets/screenshot-panel-en.png` / `assets/screenshot-official-expanded-zh.png` / `assets/screenshot-official-expanded-en.png` / `assets/screenshot-official-group-expanded-zh.png` / `assets/screenshot-official-group-expanded-en.png`
 
 ## 中文主文案
 

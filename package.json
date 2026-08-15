@@ -38,7 +38,14 @@
     "docs/assets/feature-official-expanded.png",
     "docs/assets/feature-official-group-expanded.png",
     "docs/assets/feature-drag.png",
-    "docs/assets/whale-girl-prompt.md"
+    "docs/assets/whale-girl.png",
+    "docs/assets/whale-girl-prompt.md",
+    "docs/assets/screenshot-panel-zh.png",
+    "docs/assets/screenshot-panel-en.png",
+    "docs/assets/screenshot-official-expanded-zh.png",
+    "docs/assets/screenshot-official-expanded-en.png",
+    "docs/assets/screenshot-official-group-expanded-zh.png",
+    "docs/assets/screenshot-official-group-expanded-en.png"
   ],
   "dsh": {
     "client": {

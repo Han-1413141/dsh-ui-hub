@@ -3,6 +3,18 @@
 > 所有截图来自真实运行的 DSH Web 界面(默认首页,未开启任何命理/命盘模式)。
 > 图片位置:`docs/assets/`
 
+## 首图(鲸鱼娘)
+
+![鲸鱼娘首图](assets/whale-girl.png)
+
+## UI 管家面板(中英双版本)
+
+| 中文 | English |
+|---|---|
+| ![中文面板](assets/screenshot-panel-zh.png) | ![English panel](assets/screenshot-panel-en.png) |
+| ![中文官方 UI 展开](assets/screenshot-official-expanded-zh.png) | ![English official UI expanded](assets/screenshot-official-expanded-en.png) |
+| ![中文官方组展开](assets/screenshot-official-group-expanded-zh.png) | ![English official group expanded](assets/screenshot-official-group-expanded-en.png) |
+
 ## 30 秒演示流程
 
 ![demo](assets/demo.gif)

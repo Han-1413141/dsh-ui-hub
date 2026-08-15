@@ -6,7 +6,11 @@
 
 DSH Web 客户端插件：**UI 管家**。把页面上每个插件贡献的每个 UI（面板、按钮、图标、图表、输入框……）都枚举出来，支持**逐个开关、逐个定位、碰撞避让和一键美观排布**，专治插件一多之后的互相遮挡、挤成一团。
 
-![宣传图：dsh-ui-hub UI 管家](docs/assets/promo-hero.webp)
+![首图：鲸鱼娘 · UI 管家](docs/assets/whale-girl.png)
+
+![UI 管家面板（中文）](docs/assets/screenshot-panel-collapsed.png)
+
+![UI 管家面板（English）](docs/assets/screenshot-panel-en.png)
 
 ## ✨ 功能
 
