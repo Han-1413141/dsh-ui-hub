@@ -13,7 +13,7 @@
   .mock-button{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border:1px solid #3a3f4a;border-radius:8px;background:#1c2028}
   .cm-footer-stack{display:flex;flex-direction:column;gap:6px;width:178px;border:1px solid #3a3f4a;border-radius:10px;padding:8px}
   .cm-chip{display:inline-flex;gap:4px;align-items:center}
-  .mgl-chart{border:1px solid #c9a22755;border-radius:10px;padding:8px;background:#1a1610;width:220px}
+  .demo-chart{border:1px solid #3b82f655;border-radius:10px;padding:8px;background:#0e1a2e;width:220px}
   .stats-line{font-size:12px;color:#8b909a}
   [data-slot]{display:contents}
   #composer{border-top:1px solid #262a33;padding:12px}
@@ -58,13 +58,13 @@
     <div id="composer">
       <div data-slot="conversation.composer.dock">
         <div class="stats-line">本会话 12,345 tok · 0.3s</div>
-        <div class="mgl-chart" aria-label="命盘图表">
-          <div>命盘</div>
-          <svg width="180" height="120" viewBox="0 0 180 120" aria-label="命盘主图">
-            <rect x="4" y="4" width="172" height="112" fill="none" stroke="#c9a227"/>
-            <circle cx="90" cy="60" r="40" fill="none" stroke="#c9a227"/>
-            <path d="M90 20v80M50 60h80" stroke="#c9a227"/>
-            <path d="M30 40l120 40M30 80l120-40" stroke="#c9a227"/>
+        <div class="demo-chart" aria-label="示例图表">
+          <div>图表示例</div>
+          <svg width="180" height="120" viewBox="0 0 180 120" aria-label="图表主图">
+            <rect x="4" y="4" width="172" height="112" fill="none" stroke="#3b82f6"/>
+            <circle cx="90" cy="60" r="40" fill="none" stroke="#3b82f6"/>
+            <path d="M90 20v80M50 60h80" stroke="#3b82f6"/>
+            <path d="M30 40l120 40M30 80l120-40" stroke="#3b82f6"/>
           </svg>
         </div>
       </div>
@@ -76,8 +76,8 @@
   <button type="button" data-sticky-disclosure-control="" style="position:fixed;left:1128px;top:620px;z-index:15" class="dshSd_control">
     <span>全部收起</span><span>·2</span>
   </button>
-  <div data-dsh-mingli-widget="" style="position:fixed;left:1110px;top:606px;z-index:20" aria-label="命盘悬浮图">
-    <canvas width="140" height="60" style="display:block;background:#1a1610"></canvas>
+  <div data-demo-chart-widget="" style="position:fixed;left:1110px;top:606px;z-index:20" aria-label="图表悬浮图">
+    <canvas width="140" height="60" style="display:block;background:#0e1a2e"></canvas>
   </div>
 
 <script>

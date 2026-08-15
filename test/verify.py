@@ -80,7 +80,7 @@ def main():
         check("discovered slot roots", "slot:sidebar.footer.action@0" in keys and "slot:conversation.session.header.actions@0" in keys, str(keys))
         check("discovered composer dock chart", "slot:conversation.composer.dock@1" in keys, str(keys))
         check("discovered loose sticky pill", "loose:stickyDisclosureControl=1" in keys, str(keys))
-        check("discovered loose mingli widget", "loose:dshMingliWidget=1" in keys, str(keys))
+        check("discovered loose chart widget", "loose:demoChartWidget=1" in keys, str(keys))
         cost = next((r for r in roots if r["key"] == "slot:sidebar.footer.action@0"), None)
         check("cost meter root labelled", cost is not None and "今日费用" in cost["label"], str(cost))
         check("cost meter classified as plugin UI", cost is not None and cost["category"] == "plugin", str(cost))
@@ -124,16 +124,16 @@ def main():
 
         # --- 5. auto arrange --------------------------------------------------
         set_cfg("loose:stickyDisclosureControl=1", {"mode": "float", "x": 480, "y": 220})
-        set_cfg("loose:dshMingliWidget=1", {"mode": "float", "x": 500, "y": 230})
+        set_cfg("loose:demoChartWidget=1", {"mode": "float", "x": 500, "y": 230})
         page.wait_for_timeout(80)
         placed = eval_js("window.dshUiHub.arrange()")
         page.wait_for_timeout(350)
         sticky_rect = find("loose:stickyDisclosureControl=1")["rect"]
-        mingli_rect = find("loose:dshMingliWidget=1")["rect"]
-        ov = eval_js(overlap_js("loose:stickyDisclosureControl=1", "loose:dshMingliWidget=1"))
+        chart_rect = find("loose:demoChartWidget=1")["rect"]
+        ov = eval_js(overlap_js("loose:stickyDisclosureControl=1", "loose:demoChartWidget=1"))
         check("auto arrange moved items", placed >= 2, str(placed))
         check("auto arrange items do not overlap", ov is None, str(ov))
-        check("auto arrange right-aligns column", abs(sticky_rect["right"] - mingli_rect["right"]) <= 2, f"{sticky_rect} vs {mingli_rect}")
+        check("auto arrange right-aligns column", abs(sticky_rect["right"] - chart_rect["right"]) <= 2, f"{sticky_rect} vs {chart_rect}")
 
         # --- 6. strict collision avoidance ------------------------------------
         eval_js("window.dshUiHub.collisionMode('strict')")
