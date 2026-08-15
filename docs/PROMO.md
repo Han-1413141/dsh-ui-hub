@@ -5,7 +5,7 @@
 > - 主宣传图(已生成):`assets/promo-hero.png` / `assets/promo-hero.webp`
 > - 社交卡片(已生成):`assets/promo-social.png` / `assets/promo-social.webp`
 > - 工作流程图(已生成):`assets/architecture.png`
-> - 实机截图(已生成):`assets/screenshot-panel.png` / `assets/screenshot-drag.png`
+> - 实机截图(已生成):`assets/screenshot-launcher.png` / `assets/screenshot-panel-collapsed.png` / `assets/screenshot-official-expanded.png` / `assets/screenshot-official-group-expanded.png` / `assets/screenshot-drag.png`
 
 ## 中文主文案
 
