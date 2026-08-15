@@ -17,7 +17,7 @@ A DSH web client plugin: **UI Hub**. It enumerates every UI contribution from ev
 | 📁 Collapsible groups | Two-level collapse (category → slot group), **all collapsed by default** so only category/group names + counts show; expand step by step, state is remembered |
 | 🎚️ Per-widget control | Each UI root has its own switch; expand a root to toggle its inner **buttons / icons / charts / fields** individually |
 | 📐 Three position modes | **Default** (restore), **Nudge** (translate without leaving the layout), **Float** (fixed positioning with exact x/y) |
-| 🖱️ Direct drag mode | Enable Drag mode and **drag any UI directly to move it** (auto-switches to float) or **drag its bottom-right grip to resize**; Esc exits |
+| 🖱️ Direct drag mode | Enable Drag mode and **drag any UI directly to move it** (slot-mounted UIs use nudge and keep their layout; loose widgets float) or **drag its bottom-right grip to resize**; Esc exits |
 | 🛡️ Collision avoidance | Off (report only) / Smart (clear overlaps) / Strict (any overlap); locked items stay put and push others away |
 | ✨ One-click arrange | Packs every floating UI into right-aligned vertical columns anchored to the conversation scrollport |
 | 💾 Persistent | Toggles, positions, sizes, and collapse state live in `localStorage` and are restored across refreshes |
@@ -31,6 +31,21 @@ DSH is a plugin ecosystem and every plugin adds a bit of chrome: header buttons,
 2. Toggle, move, and lock each item;
 3. Separate floating widgets that overlap;
 4. Arrange scattered widgets into one aligned column in a click.
+
+## 📸 UI gallery
+
+Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
+
+**30-second demo: default collapsed → official UI expanded → group expanded → drag mode**
+
+![Demo](docs/assets/demo.gif)
+
+| Screen | Caption |
+|---|---|
+| ![Collapsed panel](docs/assets/feature-panel-collapsed.png) | The panel opens with only the two collapsed categories: Official UI / Plugin UI |
+| ![Official UI expanded](docs/assets/feature-official-expanded.png) | Official UI expanded: slot groups appear, each still collapsed |
+| ![Group rows](docs/assets/feature-official-group-expanded.png) | One group expanded: per-row switches, official tag, position mode, `⋯` inner elements |
+| ![Drag mode](docs/assets/feature-drag.png) | Drag mode: dashed outlines for direct dragging, bottom-right grips for resizing, Esc to exit |
 
 ## Usage
 

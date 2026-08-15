@@ -52,10 +52,10 @@ Whale-girl cover (prompt in `docs/assets/whale-girl-prompt.md`) or `assets/promo
 ## 各渠道微调建议
 
 - **V2EX / 知乎**:用中文短文案,先讲“插件 UI 互相遮挡”的痛点,再列功能,最后给一行安装命令;配 `promo-hero.webp`。
-- **X / Twitter 中文线程**:第 1 条放鲸鱼娘首图 + “给 DSH 装了个 UI 管家”;第 2 条放 `screenshot-panel.png` 讲官方/插件分区与逐条开关;第 3 条放 `screenshot-drag.png` 讲拖拽移动/改大小;第 4 条放 `architecture.png` + 仓库与安装命令。
-- **X / Twitter English thread**:同结构,用 English copy,配图依次为 whale-girl → `screenshot-panel.png` → `screenshot-drag.png` → `architecture.png`。
+- **X / Twitter 中文线程**:第 1 条放鲸鱼娘首图 + “给 DSH 装了个 UI 管家”;第 2 条放 `feature-panel-collapsed.png` 讲官方/插件分区与默认折叠;第 3 条放 `feature-official-expanded.png` + `feature-official-group-expanded.png` 讲逐条开关;第 4 条放 `feature-drag.png` 讲拖拽移动/改大小;第 5 条放 `demo.gif` + 仓库与安装命令。
+- **X / Twitter English thread**:同结构,用 English copy,配图依次为 whale-girl → `feature-panel-collapsed.png` → `feature-official-group-expanded.png` → `feature-drag.png` → `demo.gif`。
 - **Reddit**:标题 `I made a DSH plugin that manages every plugin's UI: per-widget toggles, drag-to-move, collision avoidance and auto-arrange`;正文先讲痛点,再列功能,结尾放仓库与 `promo-hero.webp`。
-- **HelloGitHub / 阮一峰周刊**:项目介绍补一句“官方 UI 与插件 UI 分区管理,支持逐个开关、拖拽定位、碰撞避让与一键自动排布”。
+- **HelloGitHub / 阮一峰周刊**:项目介绍补一句“官方 UI 与插件 UI 分区管理,支持逐个开关、拖拽定位、碰撞避让与一键自动排布”,附图用 `demo.gif`。
 
 ## 素材清单
 
@@ -64,6 +64,11 @@ Whale-girl cover (prompt in `docs/assets/whale-girl-prompt.md`) or `assets/promo
 | 首图(待 AI 生成,提示词已备好) | `assets/whale-girl-prompt.md` → `assets/whale-girl.png` |
 | README / 中文主宣传图 | `assets/promo-hero.png` / `assets/promo-hero.webp` |
 | 社交卡片 | `assets/promo-social.png` / `assets/promo-social.webp` |
-| 管理面板实机截图(mock harness) | `assets/screenshot-panel.png` |
-| 拖拽模式实机截图(mock harness) | `assets/screenshot-drag.png` |
+| 30 秒功能演示 GIF | `assets/demo.gif` |
+| 默认折叠面板(带标注) | `assets/feature-panel-collapsed.png` |
+| 官方 UI 展开(带标注) | `assets/feature-official-expanded.png` |
+| 官方组条目展开(带标注) | `assets/feature-official-group-expanded.png` |
+| 拖拽模式(带标注) | `assets/feature-drag.png` |
+| 无标注原始截图 | `assets/screenshot-*.png` |
 | 工作流程架构图 | `assets/architecture.png` |
+| 界面图文说明 | `GALLERY.md` |
