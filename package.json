@@ -19,7 +19,17 @@
     "cordis.patch.yml",
     "README.md",
     "README.en.md",
-    "LICENSE"
+    "CHANGELOG.md",
+    "LICENSE",
+    "docs/PROMO.md",
+    "docs/assets/promo-hero.png",
+    "docs/assets/promo-hero.webp",
+    "docs/assets/promo-social.png",
+    "docs/assets/promo-social.webp",
+    "docs/assets/architecture.png",
+    "docs/assets/screenshot-panel.png",
+    "docs/assets/screenshot-drag.png",
+    "docs/assets/whale-girl-prompt.md"
   ],
   "dsh": {
     "client": {
