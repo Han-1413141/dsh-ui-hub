@@ -22,6 +22,8 @@ The current UI uses the host's neutral primary/switch colors, layer surfaces, co
 
 Layout regressions additionally cover old-layout migration, insertion/reordering/remounting, child identity, first-open detail editing, atomic group undo/redo, storage failures and disposal during a drag. Identical unmarked duplicate elements remain occurrence-based; unique `data-uihub-id` values remove that ambiguity.
 
+Visibility regressions cover hidden versus removed roots/children, hold/toggle key events, remounts while revealed, text editing (including shadow DOM), IME/AltGraph, shortcut recording/cancellation, legacy settings, history, export/import, reload and module reactivation. macOS modifier handling is simulated in Chromium; system-reserved key combinations still depend on the native environment.
+
 Source references:
 
 - [Native button styles](https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-primitives/src/Button.module.css)

@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+- Add Shown, Hidden and Removed states for roots, children and groups. Hidden controls respond to a configurable hold/toggle shortcut (default Alt+U); removed controls remain absent until restored.
+- Preserve legacy disabled items as removed, include visibility/shortcut settings in history and backups, and never persist transient reveal state. Ignore reveal shortcuts while editing or composing, end holds on key release/focus loss, and clean up keyboard listeners on disable.
 - Match current DSH light/dark surfaces, neutral switches, typography, spacing and compact actions; keep panels usable in narrow windows.
 - Retain control and child settings through insertion, reordering and remounts using persisted identities, with migration of existing layout keys.
 - Add 30-step page-local undo/redo, atomic group actions and a visible local-save failure state.

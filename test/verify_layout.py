@@ -91,9 +91,9 @@ def run():
         group = group.last
         page.evaluate("window.dshUiHub.setConfig('slot:sidebar.footer.action@0',{on:false})")
         page.wait_for_timeout(80)
-        toggle = group.locator('input')
-        assert toggle.evaluate('(el)=>el.indeterminate')
-        toggle.click()
+        toggle = group.locator('select')
+        assert toggle.input_value() == 'mixed'
+        toggle.select_option('shown')
         page.wait_for_timeout(80)
         assert page.evaluate("window.dshUiHub.getConfig('slot:sidebar.footer.action@0').on")
         page.locator('[data-history=undo]').click()
