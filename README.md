@@ -6,11 +6,19 @@
 
 DSH 桌面端与 Web 插件：**UI 管家**。把页面上每个插件贡献的每个 UI（面板、按钮、图标、图表、输入框……）都枚举出来，支持**逐个开关、逐个定位、碰撞避让和一键美观排布**，专治插件一多之后的互相遮挡、挤成一团。
 
-![首图：鲸鱼娘 · UI 管家](docs/assets/whale-girl.png)
+| 浅色主题 | 深色主题 |
+|---|---|
+| ![浅色界面](docs/assets/ui-native-light.png) | ![深色界面](docs/assets/ui-native-dark.png) |
 
-![UI 管家面板（中文）](docs/assets/screenshot-panel-collapsed.png)
+上图为插件实际渲染结果，使用 DSH 0.2.0-rc.2 官方主题样式与本地示例控件。
 
-![UI 管家面板（English）](docs/assets/screenshot-panel-en.png)
+## 界面与布局改进
+
+- 使用 DSH 的背景、字体、圆角和黑白开关；搜索置于顶部，拖拽、排布和拾取保持在同一行，备份与恢复操作收纳到面板底部。
+- 控件和内部按钮的设置按身份关联；插入、重排或重新挂载已识别控件后，设置继续跟随原控件。已有布局自动迁移。
+- 底部提供撤销、重做，当前页面保留最近 30 步修改；整组开关和恢复默认都可一次撤销。
+- 搜索不丢失焦点，详情首次展开即可编辑；分组开关显示部分选中状态。
+- 保存失败时明确提示，可随时导出布局备份。浮动控件按新增节点更新索引，拖拽复用已有识别结果。
 
 ## 查找与备份布局
 
@@ -24,7 +32,7 @@ DSH 桌面端与 Web 插件：**UI 管家**。把页面上每个插件贡献的�
 | 功能 | 说明 |
 |---|---|
 | 🔍 全量发现 | 枚举平台每个 `[data-slot]` 插槽里的插件 UI，以及脱离插槽的浮动控件（如 dsh-sticky-disclosure 的按钮、dsh-mingli-chart 的悬浮图）；不认识的新控件可用「拾取元素」点击捕获 |
-| 🗂️ 官方 / 插件分区 | 面板顶层分成「官方 UI」与「插件 UI」两个类别（每个条目也带官方/插件标签），一眼分清平台自带的界面和第三方插件塞进来的界面 |
+| 🗂️ 官方 / 插件分区 | 面板顶层分成「官方 UI」与「插件 UI」两个类别，一眼分清平台自带的界面和第三方插件塞进来的界面 |
 | 📁 分组折叠 | 类别与插槽组两级折叠，**默认全部折叠**，只显示类别和组名+数量，逐级展开才出现条目，界面干净易观察；展开状态自动记忆 |
 | 🎚️ 精确到单个 UI | 每个 UI 根节点独立开关；再往下可展开到**内部元素**——按钮 / 图标 / 图表 / 输入框，逐个显示或隐藏 |
 | 📐 三种位置模式 | **默认**（恢复原样）、**微调**（translate 平移，不脱离原布局）、**浮动**（fixed 定位，x/y 精确坐标） |
@@ -47,29 +55,18 @@ DSH 是插件生态，每个插件都会往页面塞一点 UI：会话标题栏�
 
 完整图文说明见 **[docs/GALLERY.md](docs/GALLERY.md)**。
 
-**30 秒演示：默认折叠 → 展开官方 UI → 展开分组 → 拖拽模式**
-
-![演示动画](docs/assets/demo.gif)
-
-| 界面 | 文字说明 |
-|---|---|
-| ![默认面板](docs/assets/feature-panel-collapsed.png) | 面板默认只显示「官方 UI / 插件 UI」两个折叠类别，干净不刷屏 |
-| ![官方 UI 展开](docs/assets/feature-official-expanded.png) | 展开官方 UI：按插槽分组，组默认仍折叠 |
-| ![组内条目](docs/assets/feature-official-group-expanded.png) | 展开某组：逐条开关、官方标签、位置模式、`⋯` 内部元素 |
-| ![拖拽模式](docs/assets/feature-drag.png) | 拖拽模式：虚线框直接拖动移动，右下角手柄改大小，Esc 退出 |
-
 ## 使用
 
-1. 桌面端安装后选择「立即启用」，通过终端安装则重新打开应用；Web 版重启 `dsh web`。页面**右上角**出现「UI 管家」胶囊按钮（快捷键 `Ctrl+Shift+U` / macOS `⌘⇧U`），点击打开管理面板；
+1. 桌面端安装后选择「立即启用」，通过终端安装则重新打开应用；Web 版重启 `dsh web`。页面**右上角**出现「UI 管家」按钮（快捷键 `Ctrl+Shift+U` / macOS `⌘⇧U`），点击打开管理面板；
 2. 面板顶层是**「官方 UI」/「插件 UI」两个折叠类别**（默认全部折叠，只显示类别与数量），点击类别展开其下按插槽分组的组名，再点击组名展开该组的 UI 条目；
-3. 条目行：左边开关立即显示/隐藏，右侧 `⋯` 展开详情；
+3. 条目行：右侧开关控制显示状态，箭头展开位置与内部元素设置；
 4. 详情里：
    - **位置模式**：默认 / 微调 / 浮动；
    - 浮动模式填 **X/Y**，微调模式填 **水平/垂直偏移**；
    - **拖拽移动**：元素右上角出现抓手，直接拖；
    - **锁定位置**：碰撞避让时不移动它；
    - **内部元素**：按钮、图标、图表、输入框逐个开关；
-5. 顶部工具条：
+5. 常用操作与底部工具：
    - **拖拽模式**：开启后**直接拖任意 UI 移动位置，拖右下角手柄改变大小**，Esc 退出；
    - **自动排布**：把所有浮动 UI 沿会话区右缘排成对齐的列；
    - **拾取元素**：点击页面上任意元素（哪怕插件没做任何标记）纳入管理；
@@ -78,6 +75,8 @@ DSH 是插件生态，每个插件都会往页面塞一点 UI：会话标题栏�
 ### 编程接口
 
 ```js
+window.dshUiHub.undo()                 // undo one layout edit; returns boolean
+window.dshUiHub.redo()                 // redo one layout edit; returns boolean
 window.dshUiHub.exportLayout()         // export a portable layout object
 window.dshUiHub.importLayout(data)      // restore an object or JSON string; returns boolean
 window.dshUiHub.items()                 // [{ key, label, plugin, category, slot, on, mode, x, y, sw, sh, children: [...] }]
@@ -93,7 +92,7 @@ window.dshUiHub.open() / close() / reset()
 
 ## 行为细节
 
-- **身份稳定**：插槽 UI 以 `slot:<插槽名>@<序号>` 为身份，跨 React 重渲染自动重新挂接；浮动控件以 `data-*` 标记（如 `data-sticky-disclosure-control`）为身份；拾取的元素以结构路径哈希为身份。
+- **控件身份**：优先使用明确标记、ID、已知插件类名及可访问名称建立映射，保留 `slot:…@N` 等现有键名。键名中的数字是已分配标识，不再跟随 DOM 顺序变化；内部元素同样单独关联。
 - **不用 style 打架**：定位通过 `data-uihub-float` + CSS 变量 + `!important` 规则实现，其他插件写 inline `left/top`（非 important）无法覆盖管家设置的位置；去掉标记即恢复插件自己的样式。
 - **卸载还原**：插件 dispose 时删除全部 `data-uihub-*` 标记、CSS 变量、样式表和自己的 UI 元素。
 - **直接拖拽**：拖拽模式只在开启期间拦截指针；**插槽里的 UI 拖拽用「平移」**（保留在原布局内，点击弹出层会跟着走），脱离插槽的浮动控件拖拽用「浮动」坐标；拖右下角手柄改宽高（浮动模式改浮层大小，默认/微调模式原地固定宽高）。拖拽结束不会给原按钮补发一次 click，普通单击仍原样传给插件；「重置此项」可恢复原样，Esc 退出编辑。
@@ -145,6 +144,7 @@ Web 与桌面端分别保存偏好设置。版本依据与实际验证范围见 
 
 ```bash
 python -X utf8 test/verify.py
+python -X utf8 test/verify_layout.py   # identity, undo and persistence regressions
 python -X utf8 test/verify_compat.py   # Playwright chromium,无外部依赖(仅本机 Python + playwright)
 ```
 
@@ -154,7 +154,7 @@ python -X utf8 test/verify_compat.py   # Playwright chromium,无外部依赖(仅
 
 - **浮动模式的坐标系**：使用 `position:fixed`。若某个 UI 的祖先元素带 CSS `transform`，fixed 会相对该祖先定位；这类 UI 建议用「微调」模式。
 - **平台 DOM 变更**：发现依赖平台公开的 `[data-slot]` 锚点与各插件的 `data-*` 标记；平台升级后若改名，对应条目会按新身份重新出现（旧配置仍保留在本地）。
-- **子元素身份**：内部元素按 DOM 顺序编号，插件重排子元素后配置可能跟随序号落到相邻元素上。
+- **无法区分的控件**：完全相同且没有标记的重复元素仍按出现顺序区分。插件作者可为根节点或内部按钮提供唯一的 `data-uihub-id`，避免身份歧义；标记或名称彻底改变的控件可能按新控件处理。
 - **插槽内不强制重排**：默认/微调模式尊重原插槽布局；跨插槽的「整页重排」请把条目切到浮动后用「自动排布」。
 
 - 自选元素只记录当前页面的 DOM 身份，刷新后需要重新拾取；普通插槽与带标记的插件控件可自动恢复。

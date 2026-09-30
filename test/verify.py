@@ -151,24 +151,25 @@ def main():
         check("panel shows official/plugin categories", cats == 2, str(cats))
         chev_closed = eval_js("""(() => {
           const c = document.querySelector('[data-uihub-panel] [data-cat] .dshUiHub_chev');
-          const s = getComputedStyle(c, '::before');
+          const s = getComputedStyle(c);
           return { top: s.borderTopWidth, right: s.borderRightWidth, left: s.borderLeftWidth, transform: s.transform };
         })()""")
-        check("chevron arms are equal length (not a checkmark)",
-              chev_closed["top"] == "2px" and chev_closed["right"] == "2px" and chev_closed["left"] == "0px", str(chev_closed))
+        check("category exposes collapsed state to keyboard and screen readers",
+              eval_js("document.querySelector('[data-cat=plugin]').matches('button[aria-expanded=false]')"))
         rows = eval_js("document.querySelectorAll('[data-uihub-panel] .dshUiHub_row').length")
         check("all categories collapsed by default (no rows)", rows == 0, str(rows))
         eval_js("document.querySelector('[data-uihub-panel] [data-cat=plugin]').click()")
         page.wait_for_timeout(60)
         chev_open = eval_js("""(() => {
           const c = document.querySelector('[data-uihub-panel] [data-cat=plugin] .dshUiHub_chev');
-          return getComputedStyle(c, '::before').transform;
+          return getComputedStyle(c).transform;
         })()""")
         check("chevron rotates when expanded", chev_open != chev_closed["transform"], f"{chev_closed['transform']} -> {chev_open}")
         groups = eval_js("document.querySelectorAll('[data-uihub-panel] .dshUiHub_group').length")
         rows = eval_js("document.querySelectorAll('[data-uihub-panel] .dshUiHub_row').length")
         check("expanded category shows groups, still collapsed", groups >= 1 and rows == 0, f"groups={groups} rows={rows}")
-        eval_js("document.querySelector('[data-uihub-panel] .dshUiHub_groupHeader').click()")
+        page.locator('[data-uihub-panel] .dshUiHub_groupButton').first.focus()
+        page.keyboard.press("Enter")
         page.wait_for_timeout(60)
         rows = eval_js("document.querySelectorAll('[data-uihub-panel] .dshUiHub_row').length")
         check("expanded group lists its UI rows", rows >= 1, str(rows))

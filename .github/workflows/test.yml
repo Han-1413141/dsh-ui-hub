@@ -24,3 +24,5 @@ jobs:
         run: python test/verify.py
       - name: Verify current Web and Desktop contracts
         run: python test/verify_compat.py
+      - name: Verify stable layout identities and undo
+        run: python test/verify_layout.py
