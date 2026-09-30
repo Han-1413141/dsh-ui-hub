@@ -16,13 +16,14 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
-    env:
-      DSH_HOME: ${{ runner.temp }}/dsh-plugin-smoke
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Use an isolated DSH profile
+        shell: bash
+        run: echo "DSH_HOME=$RUNNER_TEMP/dsh-plugin-smoke" >> "$GITHUB_ENV"
       - name: Install the checked DSH runtime
         run: npm install -g @deepseek-ai/dsh@0.2.0-rc.2 pnpm@11.7.0
       - name: Verify host discovery and revisioned client transport
