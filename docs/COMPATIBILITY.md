@@ -18,7 +18,14 @@ The host now serves revisioned combo URLs (`plugins/??…&rev=…`). Tests use t
 
 These results describe the version above, not a guarantee for future DOM changes. `test/runtime-smoke.mjs` accepts the installed runtime's package-resolution root as its first argument. `test/verify_compat.py` explicitly emulates Desktop markers rather than launching Electron.
 
+The current UI uses the host's neutral primary/switch colors, layer surfaces, compact control sizes and radius scale. Light/dark previews use official theme CSS from the pinned revision below. Local visual checks covered Chinese/English and 320, 420 and 760 px windows. Previews are fixture renders, not native-window screenshots.
+
+Layout regressions additionally cover old-layout migration, insertion/reordering/remounting, child identity, first-open detail editing, atomic group undo/redo, storage failures and disposal during a drag. Identical unmarked duplicate elements remain occurrence-based; unique `data-uihub-id` values remove that ambiguity.
+
 Source references:
+
+- [Native button styles](https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-primitives/src/Button.module.css)
+- [Native switch styles](https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-primitives/src/Switch.module.css)
 
 - [0.2.0-rc.2 release](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.0-rc.2)
 - [Desktop runtime and plugin installation](https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/apps/desktop/README.zh.md)

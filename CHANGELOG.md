@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+- Match current DSH light/dark surfaces, neutral switches, typography, spacing and compact actions; keep panels usable in narrow windows.
+- Retain control and child settings through insertion, reordering and remounts using persisted identities, with migration of existing layout keys.
+- Add 30-step page-local undo/redo, atomic group actions and a visible local-save failure state.
+- Fix first-open detail content, mixed group switches, keyboard navigation, focus restoration and live editing during remounts.
+- Index floating candidates incrementally and reuse discovery while dragging; release pending pointer gestures on cancellation/disposal.
+- Report remaining overlaps after avoidance rather than the number of moves performed.
+
 - Keep promotional images in the repository while excluding them from the installable package.
 
 - Add control/plugin/slot search and validated JSON layout export/import.

@@ -6,11 +6,19 @@ English | [中文](README.md)
 
 **UI Hub** for DSH Desktop and Web discovers controls in UI slots and marked floating widgets. Search for a control, show or hide it, adjust its position, arrange floating widgets, and export your layout for later restoration.
 
-![Cover: Whale Girl · UI Hub](docs/assets/whale-girl.png)
+| Light | Dark |
+|---|---|
+| ![Light theme](docs/assets/ui-native-light.png) | ![Dark theme](docs/assets/ui-native-dark.png) |
 
-![UI Hub panel (Chinese)](docs/assets/screenshot-panel-collapsed.png)
+Actual plugin rendering with the official DSH 0.2.0-rc.2 theme and local fixture controls.
 
-![UI Hub panel (English)](docs/assets/screenshot-panel-en.png)
+## Interface and layout improvements
+
+- Uses DSH surfaces, typography, corner radii and neutral switches. Search comes first; drag, arrange and pick stay together, with backup and recovery actions in the footer.
+- Settings follow identified controls and child actions across insertion, reorder and remount. Existing layouts migrate automatically.
+- Undo and redo retain the last 30 changes in the current page. Group switches and resetting the layout can each be undone in one step.
+- Search keeps focus, details work on the first expansion, and group switches expose mixed visibility.
+- A visible status reports failed local saves; export remains available. Floating candidates are indexed incrementally and discovery is reused while dragging.
 
 ## Find controls and back up layouts
 
@@ -24,7 +32,7 @@ English | [中文](README.md)
 | Feature | Description |
 |---|---|
 | 🔍 Full discovery | Enumerates every UI inside the platform's `[data-slot]` anchors plus floating widgets outside slots (dsh-sticky-disclosure pills, dsh-mingli-chart views, ...); unknown widgets can be captured with Pick element |
-| 🗂️ Official vs plugin | The panel is split into **Official UI** and **Plugin UI** categories (every row also carries an official/plugin tag) |
+| 🗂️ Official vs plugin | The panel is split into **Official UI** and **Plugin UI** categories |
 | 📁 Collapsible groups | Two-level collapse (category → slot group), **all collapsed by default** so only category/group names + counts show; expand step by step, state is remembered |
 | 🎚️ Per-widget control | Each UI root has its own switch; expand a root to toggle its inner **buttons / icons / charts / fields** individually |
 | 📐 Three position modes | **Default** (restore), **Nudge** (translate without leaving the layout), **Float** (fixed positioning with exact x/y) |
@@ -47,29 +55,18 @@ DSH is a plugin ecosystem and every plugin adds a bit of chrome: header buttons,
 
 Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
 
-**30-second demo: default collapsed → official UI expanded → group expanded → drag mode**
-
-![Demo](docs/assets/demo.gif)
-
-| Screen | Caption |
-|---|---|
-| ![Collapsed panel](docs/assets/feature-panel-collapsed.png) | The panel opens with only the two collapsed categories: Official UI / Plugin UI |
-| ![Official UI expanded](docs/assets/feature-official-expanded.png) | Official UI expanded: slot groups appear, each still collapsed |
-| ![Group rows](docs/assets/feature-official-group-expanded.png) | One group expanded: per-row switches, official tag, position mode, `⋯` inner elements |
-| ![Drag mode](docs/assets/feature-drag.png) | Drag mode: dashed outlines for direct dragging, bottom-right grips for resizing, Esc to exit |
-
 ## Usage
 
-1. On Desktop, choose **Enable now** after installing, or reopen the app if installed from the terminal. On Web, restart `dsh web`. A **UI Hub** pill appears in the top-right corner (hotkey `Ctrl+Shift+U`, macOS `⌘⇧U`); click it to open the panel.
+1. On Desktop, choose **Enable now** after installing, or reopen the app if installed from the terminal. On Web, restart `dsh web`. A **UI Hub** button appears in the top-right corner (hotkey `Ctrl+Shift+U`, macOS `⌘⇧U`); click it to open the panel.
 2. The panel opens with the two collapsed categories **Official UI / Plugin UI** (all collapsed by default). Click a category to reveal its slot groups, then click a group to list its UIs.
-3. Each row: left switch shows/hides the item, `⋯` expands its detail.
+3. Each row: the switch on the right controls visibility; the chevron opens position and inner-element settings.
 4. Detail pane:
    - **Position mode**: default / nudge / float;
    - **X/Y** in float mode, **DX/DY** in nudge mode;
    - **Drag to move**: a grab handle appears at the widget corner;
    - **Lock**: collision avoidance never moves this item;
    - **Inner elements**: toggle buttons, icons, charts, and fields separately.
-5. Toolbar:
+5. Actions and footer tools:
    - **Drag mode**: drag any UI directly to move it, drag its corner grip to resize, Esc to exit;
    - **Auto arrange**: packs all float-mode UIs into right-aligned columns;
    - **Pick element**: click any element on the page (even unmarked ones) to manage it;
@@ -78,6 +75,8 @@ Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
 ### API
 
 ```js
+window.dshUiHub.undo()                 // undo one layout edit; returns boolean
+window.dshUiHub.redo()                 // redo one layout edit; returns boolean
 window.dshUiHub.exportLayout()         // export a portable layout object
 window.dshUiHub.importLayout(data)      // restore an object or JSON string; returns boolean
 window.dshUiHub.items()                 // [{ key, label, plugin, category, slot, on, mode, x, y, sw, sh, children: [...] }]
@@ -93,7 +92,7 @@ window.dshUiHub.open() / close() / reset()
 
 ## Behavior notes
 
-- **Stable identity**: slot UIs are keyed `slot:<slot>@<index>` and re-attach across React re-renders; floating widgets are keyed by their `data-*` marker; picked elements by a structural path hash.
+- **Control identity**: explicit markers, IDs, known plugin classes and accessible names map to persistent keys. Existing `slot:…@N` keys are retained; their numbers are assigned identifiers rather than current DOM indices. Child actions use the same association.
 - **No style fights**: positions are enforced through `data-uihub-float` + CSS variables + `!important` rules, so other plugins' inline `left/top` writes cannot override them. Removing the attribute restores the plugin's own styles.
 - **Dispose restores everything**: all `data-uihub-*` attributes, CSS variables, stylesheet, and hub chrome are removed.
 - **Direct drag**: drag mode intercepts pointers only while enabled. Dragging a **slot-mounted UI uses nudge** (it stays inside the layout, so anchored popups follow it), while loose floating widgets move with float coordinates; the bottom-right grip resizes (float: resizes the floating box; default/nudge: pins an in-place size override). Ending a drag never re-fires the button's click; a plain click still reaches the plugin normally. Reset item restores the original; Esc exits.
@@ -144,6 +143,7 @@ Layout/shortcut preferences belong to the browser origin: Desktop and Web keep s
 
 ```bash
 python -X utf8 test/verify.py
+python -X utf8 test/verify_layout.py   # identity, undo and persistence regressions
 python -X utf8 test/verify_compat.py   # Playwright chromium over test/mock.html
 ```
 
@@ -153,7 +153,7 @@ Covers discovery, official/plugin classification, default-collapsed categories w
 
 - **Float coordinate system**: float mode uses `position:fixed`. If a UI's ancestor carries a CSS `transform`, fixed positions resolve against that ancestor; use Nudge for such items.
 - **Platform DOM changes**: discovery relies on the public `[data-slot]` anchors and plugin `data-*` markers. If the platform renames them, items reappear under new keys (old configs stay local).
-- **Child identity**: inner elements are numbered in DOM order, so configs can follow a reordered neighbor after a plugin restructures its subtree.
+- **Indistinguishable controls**: identical unmarked elements still use occurrence order. Plugin authors can provide a unique `data-uihub-id` on roots or child actions. Completely changed markers or names may create a new identity.
 - **No forced reflow inside slots**: default/nudge modes respect the original slot layout; for a full-page rearrangement, switch items to Float and use Auto arrange.
 
 - Picked elements retain only their current-page DOM identity and need to be picked again after reload. Slot controls and marked plugin widgets can restore automatically.
