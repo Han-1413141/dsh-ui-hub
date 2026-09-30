@@ -4,13 +4,20 @@
 [![Tests](https://github.com/Han-1413141/dsh-ui-hub/actions/workflows/test.yml/badge.svg)](https://github.com/Han-1413141/dsh-ui-hub/actions/workflows/test.yml)
 [English](README.en.md) | 中文
 
-DSH Web 客户端插件：**UI 管家**。把页面上每个插件贡献的每个 UI（面板、按钮、图标、图表、输入框……）都枚举出来，支持**逐个开关、逐个定位、碰撞避让和一键美观排布**，专治插件一多之后的互相遮挡、挤成一团。
+DSH 桌面端与 Web 插件：**UI 管家**。把页面上每个插件贡献的每个 UI（面板、按钮、图标、图表、输入框……）都枚举出来，支持**逐个开关、逐个定位、碰撞避让和一键美观排布**，专治插件一多之后的互相遮挡、挤成一团。
 
 ![首图：鲸鱼娘 · UI 管家](docs/assets/whale-girl.png)
 
 ![UI 管家面板（中文）](docs/assets/screenshot-panel-collapsed.png)
 
 ![UI 管家面板（English）](docs/assets/screenshot-panel-en.png)
+
+## 查找与备份布局
+
+- 在面板搜索框输入控件名称、插件名或插槽名，即可展开匹配项；清空搜索后恢复原有分组折叠状态。
+- 点击「导出布局」保存 JSON 文件；点击「导入布局」恢复显示状态、位置、大小和分组设置。无效文件不会覆盖当前布局。
+- 布局文件保存在本地，可在 Web 与桌面端之间手动转移。只有名称和结构相匹配的控件会沿用配置。
+- 静止页面不再循环重写计数；插件重新启用后恢复正常工作。
 
 ## ✨ 功能
 
@@ -71,6 +78,8 @@ DSH 是插件生态，每个插件都会往页面塞一点 UI：会话标题栏�
 ### 编程接口
 
 ```js
+window.dshUiHub.exportLayout()         // export a portable layout object
+window.dshUiHub.importLayout(data)      // restore an object or JSON string; returns boolean
 window.dshUiHub.items()                 // [{ key, label, plugin, category, slot, on, mode, x, y, sw, sh, children: [...] }]
 window.dshUiHub.setConfig(key, { on: false })            // 隐藏某个 UI
 window.dshUiHub.setConfig(key, { mode: "float", x: 300, y: 200 })
@@ -95,34 +104,48 @@ window.dshUiHub.open() / close() / reset()
 
 ## 安装
 
-> 需求：Node.js ≥ 20 + DeepSeek Harness（带 `dsh plugin` 命令的版本）。插件随 `dsh web` 启动。
+**桌面端（DSH 0.2.0-rc.2）**：在侧栏打开「插件 → 添加插件」，粘贴下面的地址，安装后选择「立即启用」。若应用提示需要重启，按提示操作。
 
-### 方式〇：一键安装（推荐）
+```text
+github:Han-1413141/dsh-ui-hub
+```
+
+桌面端自带 Node 和 pnpm。使用终端安装时，先从应用菜单的「管理 dsh 命令」安装内置命令；启动过一次桌面端以初始化配置后，完全退出应用，再执行：
+
+```bash
+dsh plugin --profile desktop add github:Han-1413141/dsh-ui-hub
+```
+
+随后重新打开桌面端。**Web 版**使用独立的 `web` 配置：
+
+```bash
+dsh plugin --profile web add github:Han-1413141/dsh-ui-hub
+dsh web
+```
+
+独立 CLI 遵循 DSH 的 Node 要求，本轮核验版本为 `^22.19.0 || >=24.0.0`；使用桌面端内置命令无需另装 Node 或 pnpm。
+
+PowerShell 一键安装（检测到桌面端内置命令时选择 `desktop`，否则选择 `web`）：
 
 ```powershell
 irm https://raw.githubusercontent.com/Han-1413141/dsh-ui-hub/main/install.ps1 | iex
 ```
 
-### 方式一：命令行
+需要指定目标时，下载 `install.ps1` 后运行 `./install.ps1 -Profile desktop` 或 `-Profile web`。没有 Git 时，可将安装地址换成 `https://github.com/Han-1413141/dsh-ui-hub/archive/refs/heads/main.tar.gz`。
 
 ```bash
-dsh plugin --profile web add github:Han-1413141/dsh-ui-hub
+# Web 版将 desktop 换成 web。
+dsh plugin --profile desktop update dsh-ui-hub
+dsh plugin --profile desktop remove dsh-ui-hub
 ```
 
-### 方式二：本地开发（符号链接）
-
-在本仓库**父目录**执行：
-
-```bash
-dsh plugin --profile web add link:./dsh-ui-hub
-```
-
-改 `lib/client.js` 后刷新页面即生效。卸载：`dsh plugin --profile web remove dsh-ui-hub`。
+Web 与桌面端分别保存偏好设置。版本依据与实际验证范围见 [兼容性说明](docs/COMPATIBILITY.md)。
 
 ## 测试
 
 ```bash
-python test/verify.py   # Playwright chromium,无外部依赖(仅本机 Python + playwright)
+python -X utf8 test/verify.py
+python -X utf8 test/verify_compat.py   # Playwright chromium,无外部依赖(仅本机 Python + playwright)
 ```
 
 `test/mock.html` 复刻了平台的 `[data-slot]` 锚点契约、多个插槽贡献与两个互相重叠的浮动控件；`test/verify.py` 覆盖发现、官方/插件分类、默认折叠与逐级展开、根/子元素开关、浮动定位、自动排布对齐、严格避让、面板、热键、拾取、直接拖拽移动与拖拽改大小、刷新持久化与卸载还原。
@@ -133,3 +156,5 @@ python test/verify.py   # Playwright chromium,无外部依赖(仅本机 Python +
 - **平台 DOM 变更**：发现依赖平台公开的 `[data-slot]` 锚点与各插件的 `data-*` 标记；平台升级后若改名，对应条目会按新身份重新出现（旧配置仍保留在本地）。
 - **子元素身份**：内部元素按 DOM 顺序编号，插件重排子元素后配置可能跟随序号落到相邻元素上。
 - **插槽内不强制重排**：默认/微调模式尊重原插槽布局；跨插槽的「整页重排」请把条目切到浮动后用「自动排布」。
+
+- 自选元素只记录当前页面的 DOM 身份，刷新后需要重新拾取；普通插槽与带标记的插件控件可自动恢复。

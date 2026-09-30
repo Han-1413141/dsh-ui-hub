@@ -1,7 +1,7 @@
 {
   "name": "dsh-ui-hub",
   "version": "0.1.0",
-  "description": "DSH Web 客户端 UI 管家插件:枚举所有插件的每个 UI(按钮/图标/图表等),独立开关、独立定位、碰撞避让与一键美观排布。UI butler for DeepSeek Harness: per-widget toggle, positioning, collision avoidance and auto layout for every plugin UI.",
+  "description": "Find, show/hide and arrange plugin controls in DeepSeek Harness Desktop and Web, with layout backup and restore.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
@@ -11,7 +11,8 @@
     "./client": {
       "default": "./lib/client.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json"
   },
   "files": [
     "lib/index.js",
@@ -21,32 +22,8 @@
     "README.en.md",
     "CHANGELOG.md",
     "LICENSE",
-    "docs/PROMO.md",
-    "docs/GALLERY.md",
-    "docs/SUBMISSIONS.md",
-    "docs/assets/promo-hero.png",
-    "docs/assets/promo-hero.webp",
-    "docs/assets/promo-social.png",
-    "docs/assets/promo-social.webp",
-    "docs/assets/architecture.png",
-    "docs/assets/demo.gif",
-    "docs/assets/screenshot-launcher.png",
-    "docs/assets/screenshot-panel-collapsed.png",
-    "docs/assets/screenshot-official-expanded.png",
-    "docs/assets/screenshot-official-group-expanded.png",
-    "docs/assets/screenshot-drag.png",
-    "docs/assets/feature-panel-collapsed.png",
-    "docs/assets/feature-official-expanded.png",
-    "docs/assets/feature-official-group-expanded.png",
-    "docs/assets/feature-drag.png",
-    "docs/assets/whale-girl.png",
-    "docs/assets/whale-girl-prompt.md",
-    "docs/assets/screenshot-panel-zh.png",
-    "docs/assets/screenshot-panel-en.png",
-    "docs/assets/screenshot-official-expanded-zh.png",
-    "docs/assets/screenshot-official-expanded-en.png",
-    "docs/assets/screenshot-official-group-expanded-zh.png",
-    "docs/assets/screenshot-official-group-expanded-en.png"
+    "locale/*.json",
+    "docs/*.md"
   ],
   "dsh": {
     "client": {
@@ -60,7 +37,7 @@
   "dshhub": {
     "schemaVersion": 1,
     "displayName": "dsh-ui-hub",
-    "summary": "UI 管家:逐个开关各插件 UI、拖拽/坐标定位、浮动碰撞避让与一键美观排布。",
+    "summary": "搜索、开关和整理插件控件，支持桌面端与 Web，可导出和恢复布局。",
     "categories": [
       "Web UI",
       "布局",
@@ -97,5 +74,9 @@
     "toggle",
     "position"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "test": "python -X utf8 test/verify.py && python -X utf8 test/verify_compat.py",
+    "test:runtime": "node test/runtime-smoke.mjs"
+  }
 }

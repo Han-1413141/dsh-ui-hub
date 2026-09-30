@@ -2,6 +2,17 @@
 
 All notable changes to this project are documented in this file.
 
+## Unreleased
+
+- Keep promotional images in the repository while excluding them from the installable package.
+
+- Add control/plugin/slot search and validated JSON layout export/import.
+- Stop idle counter mutation loops and retain trailing discovery after throttled remounts.
+- Flush settings on page hide/disposal and support reactivation of the same client module.
+- Keep the full launcher in view and clear native Desktop titlebars; exclude native caption controls.
+- Add Desktop-aware PowerShell installation, current runtime smoke checks, and Web/Windows/macOS marker regressions.
+- Document DSH 0.2.0-rc.2 compatibility and add localized plugin-manager metadata.
+
 ## 0.1.0 - 2026-08-15
 
 Initial release.

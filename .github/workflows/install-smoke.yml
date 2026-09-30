@@ -1,0 +1,41 @@
+name: install-smoke
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  current-runtime:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      DSH_HOME: ${{ runner.temp }}/dsh-plugin-smoke
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install the checked DSH runtime
+        run: npm install -g @deepseek-ai/dsh@0.2.0-rc.2 pnpm@11.7.0
+      - name: Verify host discovery and revisioned client transport
+        shell: bash
+        run: node test/runtime-smoke.mjs "$(npm root -g)/@deepseek-ai/dsh"
+      - name: Install this checkout on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ./install.ps1 -Profile web -Source "link:$env:GITHUB_WORKSPACE"
+      - name: Install this checkout on Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run: dsh plugin --profile web add "link:$GITHUB_WORKSPACE"
+      - name: Verify the installed package
+        shell: bash
+        run: dsh plugin --profile web list --depth 0

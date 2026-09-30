@@ -20,6 +20,9 @@
 </style>
 <script>
   window.__registered = [];
+    const testPlatform = new URLSearchParams(location.search).get("platform");
+    if (testPlatform && testPlatform !== "web") document.documentElement.dataset.platform = testPlatform;
+    if (testPlatform === "win32") document.documentElement.style.setProperty("--dsh-windows-titlebar-height", "40px");
   window.__ModuleLoader__ = {
     load(spec) { window.__registered.push(spec); },
   };
@@ -93,6 +96,7 @@
       },
       logger: { warn() {}, info() {} },
     };
+    window.__pluginCtx = ctx;
     moduleObj.apply(ctx);
     // Click counter for the header action button (drag must not re-trigger it).
     // The same click also opens a popup anchored to the button's ORIGINAL spot

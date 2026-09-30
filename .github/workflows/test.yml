@@ -22,3 +22,5 @@ jobs:
         run: node --check lib/client.js && node --check lib/index.js
       - name: Run verification suite
         run: python test/verify.py
+      - name: Verify current Web and Desktop contracts
+        run: python test/verify_compat.py
