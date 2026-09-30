@@ -60,7 +60,7 @@ Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
 
 ## Usage
 
-1. Restart `dsh web` after installing. A **UI Hub** pill appears in the top-right corner (hotkey `Ctrl+Shift+U`, macOS `⌘⇧U`); click it to open the panel.
+1. On Desktop, choose **Enable now** after installing, or reopen the app if installed from the terminal. On Web, restart `dsh web`. A **UI Hub** pill appears in the top-right corner (hotkey `Ctrl+Shift+U`, macOS `⌘⇧U`); click it to open the panel.
 2. The panel opens with the two collapsed categories **Official UI / Plugin UI** (all collapsed by default). Click a category to reveal its slot groups, then click a group to list its UIs.
 3. Each row: left switch shows/hides the item, `⋯` expands its detail.
 4. Detail pane:
