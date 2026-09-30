@@ -26,3 +26,5 @@ jobs:
         run: python test/verify_compat.py
       - name: Verify stable layout identities and undo
         run: python test/verify_layout.py
+      - name: Verify visibility modes and keyboard lifecycle
+        run: python test/verify_visibility.py

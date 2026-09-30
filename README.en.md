@@ -14,11 +14,27 @@ Actual plugin rendering with the official DSH 0.2.0-rc.2 theme and local fixture
 
 ## Interface and layout improvements
 
-- Uses DSH surfaces, typography, corner radii and neutral switches. Search comes first; drag, arrange and pick stay together, with backup and recovery actions in the footer.
+- Uses DSH surfaces, typography, corner radii and compact controls. Search comes first; drag, arrange and pick stay together, with backup and recovery actions in the footer.
 - Settings follow identified controls and child actions across insertion, reorder and remount. Existing layouts migrate automatically.
-- Undo and redo retain the last 30 changes in the current page. Group switches and resetting the layout can each be undone in one step.
-- Search keeps focus, details work on the first expansion, and group switches expose mixed visibility.
+- Undo and redo retain the last 30 changes in the current page. Group visibility changes and resetting the layout can each be undone in one step.
+- Search keeps focus, details work on the first expansion, and group menus show mixed visibility.
 - A visible status reports failed local saves; export remains available. Floating candidates are indexed incrementally and discovery is reused while dragging.
+
+## Shown, hidden and temporarily removed controls
+
+Each control, inner element and group has a visibility menu:
+
+| State | Behavior |
+|---|---|
+| Shown | Display normally; unaffected by the reveal shortcut |
+| Hidden | Absent until revealed with the shortcut |
+| Removed | Always absent, including while the shortcut is active. Select Shown to restore it without losing its position or size |
+
+The default is **hold `Alt+U` (`⌥U` on macOS) to show, release to hide**. Click the key button beside **Reveal shortcut** to record another key or combination. Select **Press to toggle** to alternate visibility with each press. Esc cancels recording. The panel shortcut, `Ctrl+Shift+U` / `⌘⇧U`, remains reserved.
+
+The shortcut is inactive in text inputs, editable areas, select controls and during IME composition. Releasing a required key or leaving the window ends a hold. Holding to preview does not automatically move overlapping widgets. Temporary reveal state is never saved: reloading, importing a layout or re-enabling the plugin hides those controls again.
+
+Removed controls retain their configuration and the underlying plugin remains installed. A removed parent also keeps its children absent. Existing `on: false` settings migrate to Removed; explicitly choose Hidden for shortcut-controlled items. Visibility and shortcut settings support undo/redo and layout export/import.
 
 ## Find controls and back up layouts
 
@@ -34,7 +50,7 @@ Actual plugin rendering with the official DSH 0.2.0-rc.2 theme and local fixture
 | 🔍 Full discovery | Enumerates every UI inside the platform's `[data-slot]` anchors plus floating widgets outside slots (dsh-sticky-disclosure pills, dsh-mingli-chart views, ...); unknown widgets can be captured with Pick element |
 | 🗂️ Official vs plugin | The panel is split into **Official UI** and **Plugin UI** categories |
 | 📁 Collapsible groups | Two-level collapse (category → slot group), **all collapsed by default** so only category/group names + counts show; expand step by step, state is remembered |
-| 🎚️ Per-widget control | Each UI root has its own switch; expand a root to toggle its inner **buttons / icons / charts / fields** individually |
+| 🎚️ Per-widget control | Choose Shown, Hidden or Removed for each UI root and its inner **buttons / icons / charts / fields** independently |
 | 📐 Three position modes | **Default** (restore), **Nudge** (translate without leaving the layout), **Float** (fixed positioning with exact x/y) |
 | 🖱️ Direct drag mode | Enable Drag mode and **drag any UI directly to move it** (slot-mounted UIs use nudge and keep their layout; loose widgets float) or **drag its bottom-right grip to resize**; Esc exits |
 | 🛡️ Collision avoidance | Off (report only) / Smart (clear overlaps) / Strict (any overlap); locked items stay put and push others away |
@@ -59,7 +75,7 @@ Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
 
 1. On Desktop, choose **Enable now** after installing, or reopen the app if installed from the terminal. On Web, restart `dsh web`. A **UI Hub** button appears in the top-right corner (hotkey `Ctrl+Shift+U`, macOS `⌘⇧U`); click it to open the panel.
 2. The panel opens with the two collapsed categories **Official UI / Plugin UI** (all collapsed by default). Click a category to reveal its slot groups, then click a group to list its UIs.
-3. Each row: the switch on the right controls visibility; the chevron opens position and inner-element settings.
+3. Each row: choose Shown, Hidden or Removed on the right; the chevron opens position and inner-element settings.
 4. Detail pane:
    - **Position mode**: default / nudge / float;
    - **X/Y** in float mode, **DX/DY** in nudge mode;
@@ -79,11 +95,16 @@ window.dshUiHub.undo()                 // undo one layout edit; returns boolean
 window.dshUiHub.redo()                 // redo one layout edit; returns boolean
 window.dshUiHub.exportLayout()         // export a portable layout object
 window.dshUiHub.importLayout(data)      // restore an object or JSON string; returns boolean
-window.dshUiHub.items()                 // [{ key, label, plugin, category, slot, on, mode, x, y, sw, sh, children: [...] }]
-window.dshUiHub.setConfig(key, { on: false })
+window.dshUiHub.items()                 // [{ key, label, visibility, revealed, on, mode, x, y, children: [...] }]
+window.dshUiHub.setConfig(key, { visibility: "hidden" })  // reveal with the shortcut
+window.dshUiHub.setConfig(key, { visibility: "removed" }) // absent regardless of shortcut
+window.dshUiHub.setConfig(key, { visibility: "shown" })   // restore without losing layout
+window.dshUiHub.setRevealShortcut({ code: "KeyU", alt: true, ctrl: false, meta: false, shift: false, mode: "hold" }) // hold | toggle
+window.dshUiHub.getRevealShortcut()                     // copy of shortcut settings
 window.dshUiHub.setConfig(key, { mode: "float", x: 300, y: 200 })
 window.dshUiHub.setConfig(key, { sw: 360, sh: 240 })     // set size
-window.dshUiHub.setConfig("child:...", { on: false })
+window.dshUiHub.setConfig("child:...", { visibility: "hidden" }) // same three states for children
+window.dshUiHub.setConfig(key, { on: false })            // legacy API: equivalent to removed
 window.dshUiHub.arrange()               // one-click auto arrange
 window.dshUiHub.collisionMode("strict") // off | smart | strict
 window.dshUiHub.dragMode(true)          // enable/disable direct drag mode
@@ -144,6 +165,7 @@ Layout/shortcut preferences belong to the browser origin: Desktop and Web keep s
 ```bash
 python -X utf8 test/verify.py
 python -X utf8 test/verify_layout.py   # identity, undo and persistence regressions
+python -X utf8 test/verify_visibility.py # visibility states and keyboard lifecycle
 python -X utf8 test/verify_compat.py   # Playwright chromium over test/mock.html
 ```
 
