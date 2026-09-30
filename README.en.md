@@ -4,13 +4,20 @@
 [![Tests](https://github.com/Han-1413141/dsh-ui-hub/actions/workflows/test.yml/badge.svg)](https://github.com/Han-1413141/dsh-ui-hub/actions/workflows/test.yml)
 English | [中文](README.md)
 
-A DSH web client plugin: **UI Hub**. It enumerates every UI contribution from every plugin — panels, buttons, icons, charts, fields — and lets you **toggle each one, position each one, avoid floating collisions, and auto-arrange them into a tidy column**.
+**UI Hub** for DSH Desktop and Web discovers controls in UI slots and marked floating widgets. Search for a control, show or hide it, adjust its position, arrange floating widgets, and export your layout for later restoration.
 
 ![Cover: Whale Girl · UI Hub](docs/assets/whale-girl.png)
 
 ![UI Hub panel (Chinese)](docs/assets/screenshot-panel-collapsed.png)
 
 ![UI Hub panel (English)](docs/assets/screenshot-panel-en.png)
+
+## Find controls and back up layouts
+
+- Search by control name, plugin or slot. Matches expand automatically; clearing the search restores the saved collapse state.
+- **Export layout** saves a JSON file. **Import layout** restores visibility, positions, sizes and group state. Invalid files leave the current layout intact.
+- Transfer this local file between Web and Desktop when controls have matching identities and structure.
+- Idle counters no longer rewrite the DOM continuously; re-enabling the plugin resumes normal updates.
 
 ## ✨ Features
 
@@ -53,7 +60,7 @@ Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
 
 ## Usage
 
-1. Restart `dsh web` after installing. A **UI Hub** pill appears in the top-right corner (hotkey `Ctrl+Shift+U`, macOS `⌘⇧U`); click it to open the panel.
+1. On Desktop, choose **Enable now** after installing, or reopen the app if installed from the terminal. On Web, restart `dsh web`. A **UI Hub** pill appears in the top-right corner (hotkey `Ctrl+Shift+U`, macOS `⌘⇧U`); click it to open the panel.
 2. The panel opens with the two collapsed categories **Official UI / Plugin UI** (all collapsed by default). Click a category to reveal its slot groups, then click a group to list its UIs.
 3. Each row: left switch shows/hides the item, `⋯` expands its detail.
 4. Detail pane:
@@ -71,6 +78,8 @@ Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
 ### API
 
 ```js
+window.dshUiHub.exportLayout()         // export a portable layout object
+window.dshUiHub.importLayout(data)      // restore an object or JSON string; returns boolean
 window.dshUiHub.items()                 // [{ key, label, plugin, category, slot, on, mode, x, y, sw, sh, children: [...] }]
 window.dshUiHub.setConfig(key, { on: false })
 window.dshUiHub.setConfig(key, { mode: "float", x: 300, y: 200 })
@@ -94,32 +103,48 @@ window.dshUiHub.open() / close() / reset()
 
 ## Install
 
-> Requires Node.js ≥ 20 and DeepSeek Harness with the `dsh plugin` command.
+**Desktop (DSH 0.2.0-rc.2):** open **Plugins → Add plugin** in the sidebar, paste the following source, install it, then choose **Enable now**. Follow DSH's restart prompt if shown.
 
-One-liner (PowerShell):
+```text
+github:Han-1413141/dsh-ui-hub
+```
+
+Desktop includes Node and pnpm. For terminal installation, first install the bundled command through **Manage dsh command** in the application menu. Open Desktop once to initialize its profile, fully quit it, and run:
+
+```bash
+dsh plugin --profile desktop add github:Han-1413141/dsh-ui-hub
+```
+
+Then reopen Desktop. **Web** uses a separate profile:
+
+```bash
+dsh plugin --profile web add github:Han-1413141/dsh-ui-hub
+dsh web
+```
+
+The standalone CLI follows DSH's Node requirement: `^22.19.0 || >=24.0.0` for the version checked here. Desktop's bundled command needs no separate Node or pnpm installation.
+
+PowerShell installer (automatically selects `desktop` for the bundled command, otherwise `web`):
 
 ```powershell
 irm https://raw.githubusercontent.com/Han-1413141/dsh-ui-hub/main/install.ps1 | iex
 ```
 
-Or:
+To select a profile explicitly, download `install.ps1` and run `./install.ps1 -Profile desktop` or `-Profile web`. Without Git, use `https://github.com/Han-1413141/dsh-ui-hub/archive/refs/heads/main.tar.gz` as the source.
 
 ```bash
-dsh plugin --profile web add github:Han-1413141/dsh-ui-hub
+# Replace desktop with web for a Web installation.
+dsh plugin --profile desktop update dsh-ui-hub
+dsh plugin --profile desktop remove dsh-ui-hub
 ```
 
-Local development (run from the parent directory of this repo):
-
-```bash
-dsh plugin --profile web add link:./dsh-ui-hub
-```
-
-Remove: `dsh plugin --profile web remove dsh-ui-hub`.
+Layout/shortcut preferences belong to the browser origin: Desktop and Web keep separate preferences. Compatibility details and verification limits are in [COMPATIBILITY.md](docs/COMPATIBILITY.md).
 
 ## Tests
 
 ```bash
-python test/verify.py   # Playwright chromium over test/mock.html
+python -X utf8 test/verify.py
+python -X utf8 test/verify_compat.py   # Playwright chromium over test/mock.html
 ```
 
 Covers discovery, official/plugin classification, default-collapsed categories with stepwise expansion, root/child toggles, float positioning, arrange alignment, strict collision avoidance, panel, hotkey, pick mode, direct drag move + drag resize, persistence across reload, and teardown.
@@ -130,3 +155,5 @@ Covers discovery, official/plugin classification, default-collapsed categories w
 - **Platform DOM changes**: discovery relies on the public `[data-slot]` anchors and plugin `data-*` markers. If the platform renames them, items reappear under new keys (old configs stay local).
 - **Child identity**: inner elements are numbered in DOM order, so configs can follow a reordered neighbor after a plugin restructures its subtree.
 - **No forced reflow inside slots**: default/nudge modes respect the original slot layout; for a full-page rearrangement, switch items to Float and use Auto arrange.
+
+- Picked elements retain only their current-page DOM identity and need to be picked again after reload. Slot controls and marked plugin widgets can restore automatically.
