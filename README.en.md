@@ -36,6 +36,16 @@ The shortcut is inactive in text inputs, editable areas, select controls and dur
 
 Removed controls retain their configuration and the underlying plugin remains installed. A removed parent also keeps its children absent. Existing `on: false` settings migrate to Removed; explicitly choose Hidden for shortcut-controlled items. Visibility and shortcut settings support undo/redo and layout export/import.
 
+## Restore defaults
+
+Click the labeled **Reset defaults** button at the **bottom right of the panel** to reset UI Hub:
+
+- Restore normal visibility for roots and inner elements; clear hidden/removed states, positioning, sizes, locks and custom names.
+- Restore the `Alt+U` hold-to-show shortcut and Smart collision avoidance.
+- Restore the launcher/panel positions and collapsed categories/groups, clear search, and exit drag/pick modes.
+
+Defaults are saved immediately and survive reload. One click on **Undo** restores the previous settings, including group preferences; redo is also supported. To reset only one control and its children, expand its details and select **Reset item**.
+
 ## Find controls and back up layouts
 
 - Search by control name, plugin or slot. Matches expand automatically; clearing the search restores the saved collapse state.
@@ -86,7 +96,7 @@ Full captioned walkthrough: **[docs/GALLERY.md](docs/GALLERY.md)**.
    - **Drag mode**: drag any UI directly to move it, drag its corner grip to resize, Esc to exit;
    - **Auto arrange**: packs all float-mode UIs into right-aligned columns;
    - **Pick element**: click any element on the page (even unmarked ones) to manage it;
-   - **Reset all**: clear every toggle, position, and size.
+   - **Reset defaults**: the labeled footer button restores visibility, layout, shortcuts, collision settings and group preferences in one undoable action.
 
 ### API
 
@@ -108,7 +118,8 @@ window.dshUiHub.setConfig(key, { on: false })            // legacy API: equivale
 window.dshUiHub.arrange()               // one-click auto arrange
 window.dshUiHub.collisionMode("strict") // off | smart | strict
 window.dshUiHub.dragMode(true)          // enable/disable direct drag mode
-window.dshUiHub.open() / close() / reset()
+window.dshUiHub.open() / close()
+window.dshUiHub.reset()                // complete reset, immediate save; undo() restores it
 ```
 
 ## Behavior notes
@@ -166,6 +177,7 @@ Layout/shortcut preferences belong to the browser origin: Desktop and Web keep s
 python -X utf8 test/verify.py
 python -X utf8 test/verify_layout.py   # identity, undo and persistence regressions
 python -X utf8 test/verify_visibility.py # visibility states and keyboard lifecycle
+python -X utf8 test/verify_reset.py    # complete reset, history and persistence
 python -X utf8 test/verify_compat.py   # Playwright chromium over test/mock.html
 ```
 
