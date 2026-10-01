@@ -76,7 +76,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "python -X utf8 test/verify.py && python -X utf8 test/verify_compat.py && python -X utf8 test/verify_layout.py && python -X utf8 test/verify_visibility.py",
+    "test": "python -X utf8 test/verify.py && python -X utf8 test/verify_compat.py && python -X utf8 test/verify_layout.py && python -X utf8 test/verify_visibility.py && python -X utf8 test/verify_reset.py",
     "test:runtime": "node test/runtime-smoke.mjs"
   }
 }

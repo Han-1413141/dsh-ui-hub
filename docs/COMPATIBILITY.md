@@ -24,6 +24,8 @@ Layout regressions additionally cover old-layout migration, insertion/reordering
 
 Visibility regressions cover hidden versus removed roots/children, hold/toggle key events, remounts while revealed, text editing (including shadow DOM), IME/AltGraph, shortcut recording/cancellation, legacy settings, history, export/import, reload and module reactivation. macOS modifier handling is simulated in Chromium; system-reserved key combinations still depend on the native environment.
 
+Reset regressions additionally cover the labeled action during drag/pick modes, every persisted preference, hidden/removed children, single-step undo/redo including groups, immediate reload persistence, the panel-free API and pending pointer-gesture cleanup.
+
 Source references:
 
 - [Native button styles](https://github.com/deepseek-ai/deepseek-harness/blob/639ed015397290b3745d163aafe02ffee4aa3f84/packages/client/ui-primitives/src/Button.module.css)

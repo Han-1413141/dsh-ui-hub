@@ -36,6 +36,16 @@ DSH 桌面端与 Web 插件：**UI 管家**。把页面上每个插件贡献的�
 
 「暂时删除」只控制显示，不卸载插件，也不删除配置。子元素仍受父界面约束：父界面暂时删除后，快捷键不会把内部按钮显示出来。原有 `on: false` 配置会保留为「暂时删除」，需要参与快捷键的控件请主动改为「隐藏」。三种状态及快捷键设置均支持撤销、重做和导出恢复。
 
+## 恢复默认
+
+点击面板**底部右侧的「恢复默认」文字按钮**，立即恢复 UI 管家的默认设置：
+
+- 所有控件和内部元素恢复默认显示，清除隐藏、暂时删除、位置、大小、锁定和自定义名称。
+- 隐藏快捷键恢复为 `Alt+U` 按住显示，碰撞避让恢复为「智能」。
+- 管家入口和面板恢复默认位置，类别与分组恢复默认折叠，清空搜索并退出拖拽、拾取模式。
+
+重置结果立即保存，刷新后仍然生效。误点时可点击底部「撤销」，一次找回重置前的设置；重做也支持。只想恢复一个控件时，展开它的详情并点击「恢复此项默认」。
+
 ## 查找与备份布局
 
 - 在面板搜索框输入控件名称、插件名或插槽名，即可展开匹配项；清空搜索后恢复原有分组折叠状态。
@@ -86,7 +96,7 @@ DSH 是插件生态，每个插件都会往页面塞一点 UI：会话标题栏�
    - **拖拽模式**：开启后**直接拖任意 UI 移动位置，拖右下角手柄改变大小**，Esc 退出；
    - **自动排布**：把所有浮动 UI 沿会话区右缘排成对齐的列；
    - **拾取元素**：点击页面上任意元素（哪怕插件没做任何标记）纳入管理；
-   - **恢复全部默认**：清空全部开关、位置与大小。
+   - **恢复默认**：底部右侧的文字按钮，一次恢复显隐、布局、快捷键、避让和分组偏好，可撤销。
 
 ### 编程接口
 
@@ -108,7 +118,8 @@ window.dshUiHub.setConfig(key, { on: false })            // 兼容旧接口，�
 window.dshUiHub.arrange()               // 一键自动排布
 window.dshUiHub.collisionMode("strict") // off | smart | strict
 window.dshUiHub.dragMode(true)          // 开启/关闭直接拖拽模式
-window.dshUiHub.open() / close() / reset()
+window.dshUiHub.open() / close()
+window.dshUiHub.reset()                // 完整恢复默认，立即保存，支持 undo()
 ```
 
 ## 行为细节
@@ -167,6 +178,7 @@ Web 与桌面端分别保存偏好设置。版本依据与实际验证范围见 
 python -X utf8 test/verify.py
 python -X utf8 test/verify_layout.py   # identity, undo and persistence regressions
 python -X utf8 test/verify_visibility.py # visibility states, hold/toggle shortcuts and restoration
+python -X utf8 test/verify_reset.py    # complete reset, undo/redo and immediate persistence
 python -X utf8 test/verify_compat.py   # Playwright chromium,无外部依赖(仅本机 Python + playwright)
 ```
 

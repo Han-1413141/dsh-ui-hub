@@ -28,3 +28,5 @@ jobs:
         run: python test/verify_layout.py
       - name: Verify visibility modes and keyboard lifecycle
         run: python test/verify_visibility.py
+      - name: Verify complete reset and recovery
+        run: python test/verify_reset.py

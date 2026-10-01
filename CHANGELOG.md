@@ -4,6 +4,8 @@ All notable changes to this project are documented in this file.
 
 ## Unreleased
 
+- Make Reset defaults a labeled footer action and reset visibility, layout, shortcuts, collision settings, launcher/panel positions and group preferences together. Save immediately and restore all settings with one undo/redo action.
+- End active drag/pick gestures during reset and exclude UI Hub's own descendants from picking, so recovery stays accessible while editing.
 - Add Shown, Hidden and Removed states for roots, children and groups. Hidden controls respond to a configurable hold/toggle shortcut (default Alt+U); removed controls remain absent until restored.
 - Preserve legacy disabled items as removed, include visibility/shortcut settings in history and backups, and never persist transient reveal state. Ignore reveal shortcuts while editing or composing, end holds on key release/focus loss, and clean up keyboard listeners on disable.
 - Match current DSH light/dark surfaces, neutral switches, typography, spacing and compact actions; keep panels usable in narrow windows.
